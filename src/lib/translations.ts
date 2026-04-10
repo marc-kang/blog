@@ -22,7 +22,7 @@ export const translations = {
   en: {
     tagline: "we are already there. just connecting stuff",
     sectionDone: "what i've done",
-    psychology: "wanted to understand humans. studied psychology at Sungkyunkwan University",
+    psychology: "major in human psychology (SKKU) to understand human",
     music: "charted in Korea, #1 on Netherlands new electronic music chart, 3M+ plays on my songs",
     musicLink: "my productions",
     reels: "7.3M views on instagram reels",

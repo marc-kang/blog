@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "marc kang",
-  url: "https://example.com",
+  url: "https://marcka.ng",
   description: "builder, producer, founder",
   author: "marc kang",
   links: {
