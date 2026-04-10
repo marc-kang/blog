@@ -63,7 +63,7 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   return (
-    <article className="container mx-auto max-w-4xl px-4 py-10">
+    <article>
       <div className="space-y-4 pb-8">
         <h1 className="text-3xl font-bold sm:text-4xl">{post.title}</h1>
         <div className="flex items-center gap-4">

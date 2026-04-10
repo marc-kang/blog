@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { ModeToggle } from "@/components/mode-toggle";
+import { FloatingFavorites, MobileFavoritesGrid } from "@/components/floating-favorites";
+import { FloatingIgCta } from "@/components/floating-ig-cta";
 import { translations, type Locale } from "@/lib/translations";
 
 function getInitialLocale(): Locale {
@@ -30,8 +32,9 @@ export default function Home() {
   const t = translations[locale];
 
   return (
-    <div className="flex min-h-screen justify-center px-6 py-10 sm:px-8 sm:py-16">
-      <div className="w-full max-w-[520px]">
+    <div>
+      <FloatingFavorites />
+      <FloatingIgCta locale={locale} />
         {/* top bar */}
         <div className="mb-10 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -48,19 +51,7 @@ export default function Home() {
             <p className="text-xs text-foreground/40">{t.tagline}</p>
           </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="text-sm font-medium text-foreground/60 transition-colors hover:text-foreground"
-            >
-              home
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-foreground/60 transition-colors hover:text-foreground"
-            >
-              blog
-            </Link>
+          <div className="flex items-center gap-2">
             <button
               onClick={handleLocaleToggle}
               className="rounded-full px-2 py-1 text-xs text-foreground/30 transition-colors hover:text-foreground/60"
@@ -130,31 +121,7 @@ export default function Home() {
           {t.likes}
         </p>
 
-        {/* learning */}
-        <p className="mt-8 text-sm font-semibold text-foreground/40">
-          {t.sectionLearning}
-        </p>
-        <ul className="mt-2 space-y-2 text-base leading-relaxed text-foreground/80">
-          <li className="flex gap-2">
-            <span className="shrink-0 text-foreground/30">&bull;</span>
-            {t.simple}
-          </li>
-          <li className="flex gap-2">
-            <span className="shrink-0 text-foreground/30">&bull;</span>
-            <span>
-              {t.dmPre}{" "}
-              <a
-                href="https://www.instagram.com/marc.never.stops/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-foreground/20 underline-offset-2 transition-colors hover:text-foreground hover:decoration-foreground/50"
-              >
-                ig
-              </a>{" "}
-              {t.dmPost}
-            </span>
-          </li>
-        </ul>
+        <MobileFavoritesGrid />
 
         {/* links */}
         <div className="mt-8 text-base">
@@ -167,9 +134,6 @@ export default function Home() {
             instagram
           </a>
         </div>
-      </div>
-
-      {/* bottom controls */}
     </div>
   );
 }

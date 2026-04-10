@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/components/providers";
+import { NavToggle } from "@/components/nav-toggle";
+import { ScrollingBanner } from "@/components/scrolling-banner";
 import "./globals.css";
 
 const inter = Inter({
@@ -42,7 +44,15 @@ export default function RootLayout({
         className={`${inter.variable} min-h-screen font-sans antialiased`}
       >
         <Providers>
-          {children}
+          <ScrollingBanner />
+          <div className="flex min-h-screen justify-center px-6 py-10 sm:px-8 sm:py-16">
+            <div className="w-full max-w-[520px]">
+              <NavToggle />
+              <div className="mt-6">
+                {children}
+              </div>
+            </div>
+          </div>
         </Providers>
         <Analytics />
       </body>

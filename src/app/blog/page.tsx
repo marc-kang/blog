@@ -11,7 +11,7 @@ export default function BlogPage() {
   const sortedPosts = sortPosts(posts.filter((post) => post.published));
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-10">
+    <div>
       <h1 className="mb-8 text-3xl font-bold">Blog</h1>
       {sortedPosts.length > 0 ? (
         <ul className="space-y-4">

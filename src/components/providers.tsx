@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       forcedTheme="light"
       disableTransitionOnChange
     >
-      {children}
+      <TooltipProvider delayDuration={100}>
+        {children}
+      </TooltipProvider>
     </ThemeProvider>
   );
 }
