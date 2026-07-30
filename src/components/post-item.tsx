@@ -28,9 +28,9 @@ export function PostItem({
   cover,
 }: PostItemProps) {
   return (
-    <Card className="group overflow-hidden">
-      <div className="flex items-stretch justify-between">
-        <div className="min-w-0 flex-1">
+    <Card className="group">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-1 flex-col gap-6">
           <CardHeader>
             <CardTitle>
               <Link href={`/${slug}`} className="hover:underline">
@@ -53,13 +53,16 @@ export function PostItem({
           </CardContent>
         </div>
         {cover && (
-          <Link href={`/${slug}`} className="relative w-28 shrink-0 sm:w-36">
+          <Link
+            href={`/${slug}`}
+            className="relative mr-6 block size-24 shrink-0 overflow-hidden rounded-md"
+          >
             <Image
               src={cover}
               alt={title}
               fill
-              sizes="(min-width: 640px) 9rem, 7rem"
-              className="object-cover"
+              sizes="6rem"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
         )}
