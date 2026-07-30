@@ -6,6 +6,7 @@ import { LayoutList, Rows3 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { MDXContent } from "@/components/mdx-components";
 import { PostItem } from "@/components/post-item";
 
@@ -24,14 +25,55 @@ const VIEW_STORAGE_KEY = "blog-view";
 
 type View = "feed" | "list";
 
+function ViewToggle({
+  view,
+  onChange,
+}: {
+  view: View;
+  onChange: (view: View) => void;
+}) {
+  return (
+    <div className="flex gap-1">
+      <Button
+        variant={view === "feed" ? "secondary" : "ghost"}
+        size="icon"
+        aria-label="Feed view"
+        onClick={() => onChange("feed")}
+      >
+        <Rows3 />
+      </Button>
+      <Button
+        variant={view === "list" ? "secondary" : "ghost"}
+        size="icon"
+        aria-label="List view"
+        onClick={() => onChange("list")}
+      >
+        <LayoutList />
+      </Button>
+    </div>
+  );
+}
+
 export function BlogFeed({ posts }: { posts: FeedPost[] }) {
   const [view, setView] = useState<View>("feed");
+  const [showBar, setShowBar] = useState(false);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const headerRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem(VIEW_STORAGE_KEY);
     if (stored === "feed" || stored === "list") setView(stored);
+  }, []);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowBar(!entry.isIntersecting)
+    );
+    observer.observe(header);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -58,26 +100,25 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
 
   return (
     <div>
-      <div className="sticky top-14 z-40 -mx-4 mb-8 flex items-center justify-between bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <h1 className="text-3xl font-bold">Blog</h1>
-        <div className="flex gap-1">
-          <Button
-            variant={view === "feed" ? "secondary" : "ghost"}
-            size="icon"
-            aria-label="Feed view"
-            onClick={() => switchView("feed")}
-          >
-            <Rows3 />
-          </Button>
-          <Button
-            variant={view === "list" ? "secondary" : "ghost"}
-            size="icon"
-            aria-label="List view"
-            onClick={() => switchView("list")}
-          >
-            <LayoutList />
-          </Button>
+      <div
+        className={`fixed inset-x-0 top-0 z-40 border-b bg-background transition-transform duration-300 ${
+          showBar ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        <div className="flex justify-center px-6 sm:px-8">
+          <div className="flex w-full max-w-[520px] items-center justify-between py-2">
+            <span className="font-bold">Blog</span>
+            <ViewToggle view={view} onChange={switchView} />
+          </div>
         </div>
+      </div>
+
+      <div
+        ref={headerRef}
+        className="mb-8 flex items-center justify-between"
+      >
+        <h1 className="text-3xl font-bold">Blog</h1>
+        <ViewToggle view={view} onChange={switchView} />
       </div>
 
       {posts.length === 0 ? (
@@ -98,35 +139,34 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
           ))}
         </ul>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-6">
           {visiblePosts.map((post) => (
-            <article
-              key={post.slug}
-              className="border-b pb-12 last:border-b-0"
-            >
-              <div className="space-y-3 pb-6">
-                <h2 className="text-2xl font-bold">
-                  <Link href={`/${post.slug}`} className="hover:underline">
-                    {post.title}
-                  </Link>
-                </h2>
-                <div className="flex items-center gap-4">
-                  <time className="text-sm text-muted-foreground">
-                    {formatDate(post.date)}
-                  </time>
-                  <div className="flex gap-2">
-                    {post.tags?.map((tag) => (
-                      <Badge key={tag} variant="secondary">
-                        {tag}
-                      </Badge>
-                    ))}
+            <Card key={post.slug} className="px-6">
+              <article>
+                <div className="space-y-3 pb-3">
+                  <h2 className="text-2xl font-bold">
+                    <Link href={`/${post.slug}`} className="hover:underline">
+                      {post.title}
+                    </Link>
+                  </h2>
+                  <div className="flex items-center gap-4">
+                    <time className="text-sm text-muted-foreground">
+                      {formatDate(post.date)}
+                    </time>
+                    <div className="flex gap-2">
+                      {post.tags?.map((tag) => (
+                        <Badge key={tag} variant="secondary">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="prose dark:prose-invert max-w-none">
-                <MDXContent code={post.body} />
-              </div>
-            </article>
+                <div className="prose dark:prose-invert max-w-none [&_img]:-mx-6 [&_img]:my-0 [&_img]:w-[calc(100%+3rem)] [&_img]:max-w-none [&_img]:rounded-none">
+                  <MDXContent code={post.body} />
+                </div>
+              </article>
+            </Card>
           ))}
         </div>
       )}
