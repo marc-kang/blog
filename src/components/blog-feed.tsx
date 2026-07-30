@@ -57,9 +57,11 @@ function ViewToggle({
 export function BlogFeed({ posts }: { posts: FeedPost[] }) {
   const [view, setView] = useState<View>("feed");
   const [showBar, setShowBar] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const headerRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const articleRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const stored = localStorage.getItem(VIEW_STORAGE_KEY);
@@ -91,12 +93,38 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
     return () => observer.disconnect();
   }, [posts.length]);
 
+  useEffect(() => {
+    if (view !== "feed") return;
+    let ticking = false;
+    const updateActive = () => {
+      ticking = false;
+      let active = -1;
+      articleRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 80 && rect.bottom > 80) active = i;
+      });
+      setActiveIndex(active);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateActive);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateActive();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [view, visibleCount]);
+
   const switchView = (next: View) => {
     setView(next);
     localStorage.setItem(VIEW_STORAGE_KEY, next);
   };
 
   const visiblePosts = posts.slice(0, visibleCount);
+  const activePost =
+    view === "feed" && activeIndex >= 0 ? visiblePosts[activeIndex] : null;
 
   return (
     <div>
@@ -106,8 +134,17 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
         }`}
       >
         <div className="flex justify-center px-6 sm:px-8">
-          <div className="flex w-full max-w-[520px] items-center justify-between py-2">
-            <span className="font-bold">Blog</span>
+          <div className="flex w-full max-w-[520px] items-center justify-between gap-4 py-2">
+            {activePost ? (
+              <div className="flex min-w-0 items-baseline gap-3">
+                <span className="truncate font-bold">{activePost.title}</span>
+                <time className="shrink-0 text-xs text-muted-foreground">
+                  {formatDate(activePost.date)}
+                </time>
+              </div>
+            ) : (
+              <span className="font-bold">Blog</span>
+            )}
             <ViewToggle view={view} onChange={switchView} />
           </div>
         </div>
@@ -140,8 +177,14 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
         </ul>
       ) : (
         <div className="space-y-6">
-          {visiblePosts.map((post) => (
-            <Card key={post.slug} className="px-6">
+          {visiblePosts.map((post, index) => (
+            <Card
+              key={post.slug}
+              ref={(el: HTMLDivElement | null) => {
+                articleRefs.current[index] = el;
+              }}
+              className="px-6"
+            >
               <article>
                 <div className="space-y-3 pb-3">
                   <h2 className="text-2xl font-bold">
