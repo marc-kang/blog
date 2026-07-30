@@ -23,6 +23,7 @@ export default function BlogPage() {
                 description={post.description}
                 date={post.date}
                 tags={post.tags}
+                cover={post.cover}
               />
             </li>
           ))}

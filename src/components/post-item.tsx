@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,6 +16,7 @@ interface PostItemProps {
   description?: string;
   date: string;
   tags?: string[];
+  cover?: string;
 }
 
 export function PostItem({
@@ -23,27 +25,45 @@ export function PostItem({
   description,
   date,
   tags,
+  cover,
 }: PostItemProps) {
   return (
-    <Card className="group">
-      <CardHeader>
-        <CardTitle>
-          <Link href={`/${slug}`} className="hover:underline">
-            {title}
-          </Link>
-        </CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
-      </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <div className="flex flex-wrap gap-2">
-          {tags?.map((tag) => (
-            <Badge key={tag} variant="secondary">
-              {tag}
-            </Badge>
-          ))}
+    <Card className="group overflow-hidden">
+      <div className="flex items-stretch justify-between">
+        <div className="min-w-0 flex-1">
+          <CardHeader>
+            <CardTitle>
+              <Link href={`/${slug}`} className="hover:underline">
+                {title}
+              </Link>
+            </CardTitle>
+            {description && <CardDescription>{description}</CardDescription>}
+          </CardHeader>
+          <CardContent className="flex items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              {tags?.map((tag) => (
+                <Badge key={tag} variant="secondary">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            <time className="text-sm text-muted-foreground">
+              {formatDate(date)}
+            </time>
+          </CardContent>
         </div>
-        <time className="text-sm text-muted-foreground">{formatDate(date)}</time>
-      </CardContent>
+        {cover && (
+          <Link href={`/${slug}`} className="relative w-28 shrink-0 sm:w-36">
+            <Image
+              src={cover}
+              alt={title}
+              fill
+              sizes="(min-width: 640px) 9rem, 7rem"
+              className="object-cover"
+            />
+          </Link>
+        )}
+      </div>
     </Card>
   );
 }
