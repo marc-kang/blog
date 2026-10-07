@@ -89,7 +89,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <p className="text-lg text-muted-foreground">{post.description}</p>
         )}
       </div>
-      <div className="prose dark:prose-invert max-w-none">
+      <div className="prose dark:prose-invert max-w-none prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline-offset-4">
         <MDXContent code={post.body} />
       </div>
     </article>
