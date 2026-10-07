@@ -9,6 +9,9 @@ interface PostPageProps {
   params: Promise<{ slug: string[] }>;
 }
 
+const canViewDrafts =
+  process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "preview";
+
 async function getPostFromParams(params: { slug: string[] }) {
   const slug = params.slug.join("/");
   return posts.find((post) => post.slugAsParams === slug);
@@ -17,7 +20,7 @@ async function getPostFromParams(params: { slug: string[] }) {
 export async function generateMetadata({ params }: PostPageProps) {
   const resolvedParams = await params;
   const post = await getPostFromParams(resolvedParams);
-  if (!post) return {};
+  if (!post || (!post.published && !canViewDrafts)) return {};
 
   const ogSearchParams = new URLSearchParams();
   ogSearchParams.set("title", post.title);
@@ -25,6 +28,7 @@ export async function generateMetadata({ params }: PostPageProps) {
   return {
     title: post.title,
     description: post.description,
+    ...(!post.published && { robots: { index: false, follow: false } }),
     openGraph: {
       title: post.title,
       description: post.description,
@@ -49,22 +53,25 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export function generateStaticParams() {
-  return posts.map((post) => ({
-    slug: post.slugAsParams.split("/"),
-  }));
+  return posts
+    .filter((post) => post.published || canViewDrafts)
+    .map((post) => ({
+      slug: post.slugAsParams.split("/"),
+    }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
   const resolvedParams = await params;
   const post = await getPostFromParams(resolvedParams);
 
-  if (!post || !post.published) {
+  if (!post || (!post.published && !canViewDrafts)) {
     notFound();
   }
 
   return (
     <article>
       <div className="space-y-4 pb-8">
+        {!post.published && <Badge variant="outline">초안</Badge>}
         <h1 className="text-3xl font-bold sm:text-4xl">{post.title}</h1>
         <div className="flex items-center gap-4">
           <time className="text-sm text-muted-foreground">
