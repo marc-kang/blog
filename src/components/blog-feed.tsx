@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { LayoutList, Rows3 } from "lucide-react";
+import { ChevronLeft, LayoutList, Rows3 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ function ViewToggle({
   onChange: (view: View) => void;
 }) {
   return (
-    <div className="flex gap-1">
+    <div className="flex shrink-0 gap-1">
       <Button
         variant={view === "feed" ? "secondary" : "ghost"}
         size="icon"
@@ -135,16 +135,23 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
       >
         <div className="flex justify-center px-6 sm:px-8">
           <div className="flex w-full max-w-[520px] items-center justify-between gap-4 py-2">
-            {activePost ? (
-              <div className="flex min-w-0 items-baseline gap-3">
-                <span className="truncate font-bold">{activePost.title}</span>
-                <time className="shrink-0 text-xs text-muted-foreground">
-                  {formatDate(activePost.date)}
-                </time>
-              </div>
-            ) : (
-              <span className="font-bold">Blog</span>
-            )}
+            <div className="flex min-w-0 items-center gap-2">
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="/" aria-label="홈으로 가기" title="홈으로 가기">
+                  <ChevronLeft aria-hidden="true" />
+                </Link>
+              </Button>
+              {activePost ? (
+                <div className="flex min-w-0 items-baseline gap-3">
+                  <span className="truncate font-bold">{activePost.title}</span>
+                  <time className="shrink-0 text-xs text-muted-foreground">
+                    {formatDate(activePost.date)}
+                  </time>
+                </div>
+              ) : (
+                <span className="font-bold">Blog</span>
+              )}
+            </div>
             <ViewToggle view={view} onChange={switchView} />
           </div>
         </div>

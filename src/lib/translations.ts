@@ -6,7 +6,7 @@ export const translations = {
     music: "한국 음악 차트 인, 네덜란드 신인 전자음악 차트 1위, 300만 회 이상 내 노래 재생됨",
     musicLink: "프로듀싱한 음악들",
     reels: "어그로 좀 침, 인스타 릴스 730만뷰",
-    startup: "창업 2회차, 유저 30만명으로 cash positive 근근히 넘기고 something big 찾는 중",
+    startup: "창업 2회차, 유저 30만명으로 cash positive 넘기고 something big 찾는 중",
     fullStory: "full story",
     sectionLikes: "좋아하는 거",
     likes: "claude, 심리학, 철학 (요즘 니체랑 들뢰즈), 음악, 생산성, first principle thinking, 의미",
