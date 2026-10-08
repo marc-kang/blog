@@ -205,7 +205,7 @@ export function BlogFeed({ posts }: { posts: FeedPost[] }) {
                     </div>
                   </div>
                 </div>
-                <div className="prose dark:prose-invert max-w-none [&_img]:-mx-6 [&_img]:my-0 [&_img]:w-[calc(100%+3rem)] [&_img]:max-w-none [&_img]:rounded-none">
+                <div className="prose dark:prose-invert max-w-none prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline-offset-4 [&_img]:-mx-6 [&_img]:my-0 [&_img]:w-[calc(100%+3rem)] [&_img]:max-w-none [&_img]:rounded-none [&_h3_img]:mx-0 [&_h3_img]:w-6 [&_h3_img]:max-w-6">
                   <MDXContent code={post.body} />
                 </div>
               </article>
