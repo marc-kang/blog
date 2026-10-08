@@ -11,7 +11,7 @@ export const translations = {
     sectionLikes: "좋아하는 거",
     likes: "claude, 심리학, 철학 (요즘 니체랑 들뢰즈), 음악, 생산성, first principle thinking, 의미",
     dmPre: "dm me on",
-    dmPost: "if you think in first principles & simple, and are a good, smart, weird person. let's be friends",
+    dmPost: "if you think from first principles, and are a good, smart, weird person. let's be friends",
     flashMessage: "just go outside my friend.",
   },
   en: {
@@ -26,7 +26,7 @@ export const translations = {
     sectionLikes: "things i like",
     likes: "claude, psychology, philosophy (nietzsche & deleuze lately), music, productivity, first principle thinking, meaning",
     dmPre: "dm me on",
-    dmPost: "if you think in first principles & simple, and are a good, smart, weird person. let's be friends",
+    dmPost: "if you think from first principles, and are a good, smart, weird person. let's be friends",
     flashMessage: "just go outside my friend.",
   },
 } as const;
