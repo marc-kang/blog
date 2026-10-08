@@ -212,7 +212,7 @@ iOS 버전에 따라 버튼 위치나 문구가 조금 다를 수 있어요. 동
 
 ##### 3. 갤럭시: RegiStar + Tasker로 삼중 탭 연결하기
 
-갤럭시에서는 Tap, Tap 대신 삼성 Good Lock의 **RegiStar(레지스타)**를 사용할 수 있어요. RegiStar는 뒷면을 두 번 또는 세 번 두드렸을 때 지정한 앱을 여는 기능을 제공합니다. [삼성 Members의 RegiStar 사용 예시](https://eu.community.samsung.com/t5/samsung-fun-community/registar-nuevo-m%C3%B3dulo-de-good-lock/td-p/6439090)
+갤럭시에서는 Tap, Tap 대신 삼성 Good Lock의 **RegiStar**(레지스타)를 사용할 수 있어요. RegiStar는 뒷면을 두 번 또는 세 번 두드렸을 때 지정한 앱을 여는 기능을 제공합니다. [삼성 Members의 RegiStar 사용 예시](https://eu.community.samsung.com/t5/samsung-fun-community/registar-nuevo-m%C3%B3dulo-de-good-lock/td-p/6439090)
 
 여기서는 **RegiStar가 삼중 탭을 감지하고, Tasker가 컬러 전환과 60초 뒤 흑백 복귀를 맡도록** 연결합니다. RegiStar만 설치해서 1분 자동 복귀까지 되는 건 아니고, Tasker 설정은 여전히 필요해요.
 
@@ -220,11 +220,11 @@ iOS 버전에 따라 버튼 위치나 문구가 조금 다를 수 있어요. 동
 
 1. **위의 두 번째 방법에서 1~4번까지** 따라 Tasker 설치, 권한 허용, **1분 컬러** 작업 만들기를 완료합니다. Tap, Tap은 설치하지 않아도 됩니다.
 2. Tasker에서 **1분 컬러**를 직접 실행해 **컬러 전환 → 60초 뒤 흑백 복귀**가 되는지 먼저 확인합니다. 이 단계에서 안 되면 RegiStar를 연결해도 해결되지 않으니, Tasker 권한과 해당 기기의 색상 보정 설정부터 확인해주세요.
-3. Tasker의 **Preferences(환경설정)**에서 **Secondary App / Secondary App Enabled** 항목을 켭니다. 앱 목록에 **Tasker Secondary**가 표시되도록 하는 설정입니다. Tasker Secondary는 지정한 작업을 실행하기 위한 별도 아이콘이에요.
-4. Tasker의 **Profiles → + → Event(이벤트)**에서 **Secondary App Opened**를 검색해 선택합니다. 뒤로 돌아가 실행할 작업으로 **1분 컬러**를 연결하고, 변경 사항을 저장·적용합니다. [Tasker 공식 이벤트 설명](https://tasker.joaoapps.com/userguide/en/help/eh_secondary_app_opened.html)
+3. Tasker의 **Preferences**(환경설정)에서 **Secondary App / Secondary App Enabled** 항목을 켭니다. 앱 목록에 **Tasker Secondary**가 표시되도록 하는 설정입니다. Tasker Secondary는 지정한 작업을 실행하기 위한 별도 아이콘이에요.
+4. Tasker의 **Profiles → + → Event**(이벤트)에서 **Secondary App Opened**를 검색해 선택합니다. 뒤로 돌아가 실행할 작업으로 **1분 컬러**를 연결하고, 변경 사항을 저장·적용합니다. [Tasker 공식 이벤트 설명](https://tasker.joaoapps.com/userguide/en/help/eh_secondary_app_opened.html)
 5. 앱 목록에서 **Tasker Secondary**를 직접 열어 같은 작업이 실행되는지 확인합니다.
 6. Galaxy Store에서 **Good Lock**을 설치하고, Good Lock 안에서 **RegiStar**를 찾아 설치합니다. [RegiStar 설치 링크](https://galaxystore.samsung.com/detail/com.samsung.android.app.galaxyregistry)
-7. RegiStar의 **Back-Tap action(뒷면 두드리기 액션)**을 켭니다. **Triple Tap(세 번 두드리기) → Open app(앱 실행)**에서 **Tasker Secondary**를 선택합니다.
+7. RegiStar의 **Back-Tap action**(뒷면 두드리기 액션)을 켭니다. **Triple Tap → Open app**(세 번 두드리기 → 앱 실행)에서 **Tasker Secondary**를 선택합니다.
 8. 화면을 켜둔 상태에서 뒷면을 빠르게 세 번 두드려 확인합니다. 컬러로 바뀐 뒤 60초 후 흑백으로 돌아오는지 확인해주세요.
 
 **Tasker Secondary를 직접 열면 되는데 삼중 탭으로는 안 된다면**, RegiStar의 뒷면 두드리기 설정과 감도를 확인합니다. RegiStar에 해당 메뉴가 없거나 기기에서 지원하지 않는다면 첫 번째 방법으로 수동 전환하거나 두 번째 방법을 검토해주세요.
